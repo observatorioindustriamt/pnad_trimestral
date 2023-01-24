@@ -67,7 +67,6 @@ svyby(~ VD3004, ~VD4005, design =  dadosPNADCmt20223, svytotal)
 #####taxa de desocupação para brasil#####
 svyratio(numerator=~(VD4002=="Pessoas desocupadas"), denominator=~(VD4001=="Pessoas na força de trabalho"), design= dadosPNADc20223 , na.rm=TRUE)
 
-
 #####gini da renda Brasil##### 
 dadosPNADc20223 %>%
 convey_prep() %>% 
@@ -99,5 +98,17 @@ mediaRendaUF <- svyby(~VD4020, ~UF, dadosPNADc20223, svymean, na.rm = T)
 #####curva lorenz da renda##### 
 svylorenz(formula=~VD4020, design=dadosPNADc20223, quantiles=seq(0,1,0.05), na.rm=TRUE)
 
+#####teste gráfico com outras variaveis#####
+#horas trabalhadas
+svyhist(formula=~as.numeric(VD4035), design = dadosPNADCmt20223, main="Histograma Mato Grosso", xlab="Número de Horas Trabalhadas")
+
+#horas trabalhadas e rendimento efetivo 
+svyplot(formula=VD4020~VD4035, design=dadosPNADCmt20223, main="Horas e Rendimento: Mato Grosso", style="bubble", xlab="Número de Horas Efetivamente Trabalhadas", ylab="Rendimento Efetivo")
+
+#instrucao e rendimento
+svyplot(formula=VD4020~VD3004, design=dadosPNADCmt20223, main="Instrução e Rendimento: Mato Grosso", style="bubble", xlab="Níveis de instrução", ylab="Rendimento Efetivo")
+
+#raça e rendimento
+svyplot(formula=VD4020~V2010, design=dadosPNADCmt20223, main="Raça e Rendimento: Mato Grosso", style="bubble", xlab="Cor ou raça", ylab="Rendimento Efetivo")
 
 
