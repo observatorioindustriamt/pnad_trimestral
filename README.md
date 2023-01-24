@@ -64,6 +64,10 @@ svyby(~ V2007, ~VD4005, design =  dadosPNADCmt20223, svytotal)
 #desalentoporinstrucao 
 svyby(~ VD3004, ~VD4005, design =  dadosPNADCmt20223, svytotal)
 
+#####taxa de desocupação para brasil#####
+svyratio(numerator=~(VD4002=="Pessoas desocupadas"), denominator=~(VD4001=="Pessoas na força de trabalho"), design= dadosPNADc20223 , na.rm=TRUE)
+
+
 #####gini da renda Brasil##### 
 dadosPNADc20223 %>%
 convey_prep() %>% 
