@@ -64,17 +64,17 @@ svyby(~ V2007, ~VD4005, design =  dadosPNADCmt20223, svytotal)
 #desalentoporinstrucao 
 svyby(~ VD3004, ~VD4005, design =  dadosPNADCmt20223, svytotal)
 
-###gini da renda Brasil#### 
+#####gini da renda Brasil##### 
 dadosPNADc20223 %>%
 convey_prep() %>% 
 svygini(formula=~VD4020, na.rm=TRUE)
 
-###gini da renda por UF#### 
+#####gini da renda por UF##### 
 gini_uf <- dadosPNADc20223 %>%
 convey_prep() %>% 
 svyby(formula=~VD4020, by=~UF, FUN= convey::svygini, na.rm=TRUE)
 
-###representacao grafica gini UF##### 
+#####representacao grafica gini UF##### 
 gini_uf %>%
   dplyr::as_tibble() %>%
   dplyr::mutate(UF = forcats::fct_reorder(UF, VD4020)) %>%
@@ -89,10 +89,10 @@ gini_uf %>%
     caption = "Fonte: Microdados PNADC-T/IBGE"
   )
 
-##renda media por UF##
+#####renda media por UF#####
 mediaRendaUF <- svyby(~VD4020, ~UF, dadosPNADc20223, svymean, na.rm = T)
 
-#curva lorenz da renda##### 
+#####curva lorenz da renda##### 
 svylorenz(formula=~VD4020, design=dadosPNADc20223, quantiles=seq(0,1,0.05), na.rm=TRUE)
 
 
