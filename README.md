@@ -30,13 +30,17 @@ dadosPNADCmt20223$variables <- transform(dadosPNADCmt20223$variables, informalid
                                                                                          ifelse(VD4009=="Empregado no setor privado sem carteira de trabalho assinada"|VD4009=="Trabalhador doméstico sem carteira de trabalho assinada"|(VD4009=="Empregador"&V4019=="Não")|(VD4009=="Conta-própria"&V4019=="Não")|VD4009=="Trabalhador familiar auxiliar","Pessoas na informalidade","Pessoas na formalidade"))))
 
 #verificando o total de informais com o divulgado pelo IBGE:# 
+
 svytotal(~ informalidade, dadosPNADCmt20223, na.rm = TRUE) 
 
 #cruzando a variavel de informalidade com sexo, grau de instrucao e raça/cor, respectivamente.# 
+
 #informalidadeporsexo#
 svyby(~informalidade, ~V2007, design =  dadosPNADCmt20223, na.rm = TRUE, svytotal)
+
 #informalidadeporinstrução#
 svyby(~informalidade, ~VD3004, design =  dadosPNADCmt20223, na.rm = TRUE, svytotal)
+
 #informalidadeporraça/cor# 
 svyby(~informalidade, ~V2010, design =  dadosPNADCmt20223, na.rm = TRUE, svytotal)
 
