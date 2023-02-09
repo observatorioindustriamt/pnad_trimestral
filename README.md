@@ -37,35 +37,71 @@ svytotal(~ informalidade, dadosPNADCmt20223, na.rm = TRUE)
 
 #informalidadeporsexo#
 svyby(~informalidade, ~V2007, design =  dadosPNADCmt20223, na.rm = TRUE, svytotal)
-
 #informalidadeporinstrução#
 svyby(~informalidade, ~VD3004, design =  dadosPNADCmt20223, na.rm = TRUE, svytotal)
-
 #informalidadeporraça/cor# 
 svyby(~informalidade, ~V2010, design =  dadosPNADCmt20223, na.rm = TRUE, svytotal)
+#interacao 
+svyby(~ informalidade, ~ interaction(V2007, V2010), dadosPNADCmt20223, na.rm = T, svytotal)
+svyby(~ informalidade, ~ interaction(V2007, VD3004), dadosPNADCmt20223, na.rm = T, svytotal)
+
 
 #cruzando a variavel de ocupado/desocupado com sexo, grau de instrucao e raça/cor, respectivamente.# 
 #ocupacaoporsexo#
 svyby(~ V2007, ~VD4002, design =  dadosPNADCmt20223, svytotal)
-
 #ocupacaoporraca
 svyby(~ V2010, ~VD4002, design =  dadosPNADCmt20223, svytotal)
-
 #ocupacaoporgraudeintrução
 svyby(~VD3004, ~VD4002, design =  dadosPNADCmt20223, svytotal)
-
 #cruzando a variavel de desalento com sexo, grau de instrucao e raça/cor, respectivamente.# 
 #desalentoporraca
 svyby(~ V2010, ~VD4005, design =  dadosPNADCmt20223, svytotal)
-
 #desalentoporsexo 
 svyby(~ V2007, ~VD4005, design =  dadosPNADCmt20223, svytotal)
-
 #desalentoporinstrucao 
 svyby(~ VD3004, ~VD4005, design =  dadosPNADCmt20223, svytotal)
 
+#interacao
+svyby(~ VD4002, ~ interaction(V2007, V2010), dadosPNADCmt20223, na.rm = T, svytotal)
+svyby(~ VD4002, ~ interaction(V2007, VD3004), dadosPNADCmt20223, na.rm = T, svytotal)
+
 #####taxa de desocupação para brasil#####
 svyratio(numerator=~(VD4002=="Pessoas desocupadas"), denominator=~(VD4001=="Pessoas na força de trabalho"), design= dadosPNADc20223 , na.rm=TRUE)
+
+#####renda media por UF#####
+mediaRendaUF <- svyby(~VD4020, ~UF, dadosPNADc20223, svymean, na.rm = T)
+
+#renda media por genero brasil e mato grosso#
+#brasil
+svymean(~VD4020, subset(dadosPNADc20223, V2007 == "Mulher")  , na.rm = T)
+svymean(~VD4020, subset(dadosPNADc20223, V2007 == "Homem")  , na.rm = T)
+#mato grosso
+svymean(~VD4020, subset(dadosPNADCmt20223, V2007 == "Mulher")  , na.rm = T)
+svymean(~VD4020, subset(dadosPNADCmt20223, V2007 == "Homem")  , na.rm = T)
+
+#renda media por setor brasil e mato grosso# 
+#brasil
+svymean(~VD4020, subset(dadosPNADc20223, VD4010 == "Construção")  , na.rm = T)
+svymean(~VD4020, subset(dadosPNADc20223, VD4010 == "Indústria geral")  , na.rm = T)
+svymean(~VD4020, subset(dadosPNADc20223, VD4010 == "Agricultura, pecuária, produção florestal, pesca e aquicultura ",na.rm = T))
+svymean(~VD4020, subset(dadosPNADc20223, VD4010 == "Indústria geral")  , na.rm = T)
+#mato grosso
+svymean(~VD4020, subset(dadosPNADCmt20223, VD4010 == "Construção")  , na.rm = T)
+svymean(~VD4020, subset(dadosPNADCmt20223, VD4010 == "Indústria geral")  , na.rm = T)
+svymean(~VD4020, subset(dadosPNADCmt20223, VD4010 == "Agricultura, pecuária, produção florestal, pesca e aquicultura ",na.rm = T))
+svymean(~VD4020, subset(dadosPNADCmt20223, VD4010 == "Indústria geral")  , na.rm = T)
+
+#renda informais
+svymean(~VD4020, subset(dadosPNADc20223, dadosPNADCmt20223$variables$informalidade == "Pessoas na informalidade")  , na.rm = T)
+
+#mediana
+svyquantile(~VD4020, dadosPNADc20223, quantiles = .5, na.rm = T)
+
+#quartisderenda 
+svyquantile(~VD4020, dadosPNADc20223, quantiles = c(.1,.25,.5,.75,.9), na.rm = T)
+
+#####curva lorenz da renda##### 
+svylorenz(formula=~VD4020, design=dadosPNADc20223, quantiles=seq(0,1,0.05), na.rm=TRUE)
 
 #####gini da renda Brasil##### 
 dadosPNADc20223 %>%
@@ -91,12 +127,6 @@ gini_uf %>%
     y = NULL,
     caption = "Fonte: Microdados PNADC-T/IBGE"
   )
-
-#####renda media por UF#####
-mediaRendaUF <- svyby(~VD4020, ~UF, dadosPNADc20223, svymean, na.rm = T)
-
-#####curva lorenz da renda##### 
-svylorenz(formula=~VD4020, design=dadosPNADc20223, quantiles=seq(0,1,0.05), na.rm=TRUE)
 
 #####teste gráfico com outras variaveis#####
 #horas trabalhadas
