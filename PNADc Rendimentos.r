@@ -19,13 +19,20 @@ svymean(~VD4019, subset(dadosPNADBaixadaCba20224, V2007 == "Homem")  , na.rm = T
 svymean(~VD4019, subset(dadosPNADCCba20224, V2007 == "Mulher")  , na.rm = T)
 svymean(~VD4019, subset(dadosPNADCCba20224, V2007 == "Homem")  , na.rm = T)
 
+#Redimentos habituais por grau de instrução em Mato Grosso
+svyby(~VD4019, ~VD3004, dadosPNADCmt20224, svymean, na.rm=TRUE)
 
-#Rendimento médio habitual por setor em Mato Grosso 
-svymean(~VD4019, subset(dadosPNADcmt20224, VD4010 == "Construção")  , na.rm = T)
-svymean(~VD4019, subset(dadosPNADcmt20224, VD4010 == "Indústria geral")  , na.rm = T)
-svymean(~VD4019, subset(dadosPNADcmt20224, VD4010 == "Agricultura, pecuária, produção florestal, pesca e aquicultura ",na.rm = T))
-svymean(~VD4019, subset(dadosPNADcmt20224, VD4010 == "Indústria geral")  , na.rm = T)
+#Redimentos habituais por raça/etnia em Mato Grosso
+svyby(~VD4019, ~V2010, dadosPNADCmt20224, svymean, na.rm=TRUE)
 
+#Redimentos habituais por sexo em Mato Grosso
+svyby(~VD4019, ~V2007, dadosPNADCmt20224, svymean, na.rm=TRUE)
+
+#Redimentos habituais por setor econômico em Mato Grosso
+svyby(~VD4019, ~VD4010, dadosPNADCmt20224, svymean, na.rm=TRUE)
+
+#Redimentos habituais por ocupações em Mato Grosso
+svyby(~VD4019, ~VD4011, dadosPNADCmt20224, svymean, na.rm=TRUE)
 
 # Quartis de Rendimentos Habituais #  
 svyquantile(~VD4019, dadosPNADcmt20224, quantiles = c(.1,.25,.5,.75,.9), na.rm = T)
